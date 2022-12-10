@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
             const Padding(
               padding: EdgeInsets.only(left: 12),
               child: Text(
-                'Gif Search',
+                'Gif Finder',
                 style: TextStyle(color: Colors.black, fontSize: 26),
               ),
             )
