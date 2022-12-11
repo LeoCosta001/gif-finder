@@ -14,6 +14,18 @@ class _HomePageState extends State<HomePage> {
   // API instance
   final GiphyApi _giphyApi = GiphyApi();
 
+  // States
+  String _search = '';
+
+  // Methods
+  Future<Map> _getGifs() async {
+    if (_search.isEmpty) {
+      return _giphyApi.getTrendsGifs(GetTrendsGifsOptions());
+    } else {
+      return _giphyApi.getSearchGifs(GetSearchGifsOptions(query: _search));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,9 +50,23 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: backGroundColor,
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: 'Search',
+                border: OutlineInputBorder(),
+              ),
+              onSubmitted: (value) {
+                setState(() {
+                  _search = value;
+                });
+              },
+            ),
+          ),
           Expanded(
             child: FutureBuilder(
-              future: _giphyApi.getTrendsGifs(GetTrendsGifsOptions(pageNumber: 1)),
+              future: _getGifs(),
               builder: ((context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
