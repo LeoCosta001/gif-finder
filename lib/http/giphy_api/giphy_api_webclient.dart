@@ -12,8 +12,8 @@ class GiphyApi {
     if (options.query.isEmpty) {
       return await getTrendsGifs(GetTrendsGifsOptions());
     } else {
-      const int pageLimit = 20;
-      final int pageNumber = (options.pageNumber ?? 1) - 1;
+      const int pageLimit = 21;
+      final int pageNumber = ((options.pageNumber ?? 1) - 1) * pageLimit;
       final String selectedLang = options.lang ?? 'en';
 
       final Response response = await client.get(

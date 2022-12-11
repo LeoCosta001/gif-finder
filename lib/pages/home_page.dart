@@ -16,13 +16,14 @@ class _HomePageState extends State<HomePage> {
 
   // States
   String _search = '';
+  int _pageNumber = 1;
 
   // Methods
   Future<Map> _getGifs() async {
     if (_search.isEmpty) {
       return _giphyApi.getTrendsGifs(GetTrendsGifsOptions());
     } else {
-      return _giphyApi.getSearchGifs(GetSearchGifsOptions(query: _search));
+      return _giphyApi.getSearchGifs(GetSearchGifsOptions(query: _search, pageNumber: _pageNumber));
     }
   }
 
@@ -59,6 +60,7 @@ class _HomePageState extends State<HomePage> {
               ),
               onSubmitted: (value) {
                 setState(() {
+                  _pageNumber = 1;
                   _search = value;
                 });
               },
@@ -96,25 +98,53 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  int _getCount(int gifQuantity) {
+    return _search.isEmpty ? gifQuantity : gifQuantity + 1;
+  }
+
   Widget _createGifList(BuildContext context, AsyncSnapshot snapshot) {
     final int gifQuantity = snapshot.data['data'].length;
 
     return GridView.builder(
       padding: const EdgeInsets.all(12),
+      physics: const BouncingScrollPhysics(), // Allow animated scroll over
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
       ),
-      itemCount: gifQuantity,
+      itemCount: _getCount(gifQuantity),
       itemBuilder: ((context, index) {
-        return GestureDetector(
-          child: Image.network(
-            snapshot.data['data'][index]['images']['fixed_height']['url'],
-            height: 300,
-            fit: BoxFit.cover,
-          ),
-        );
+        // Check if is display "Show more" button
+        if (_search.isEmpty || index < gifQuantity) {
+          return GestureDetector(
+            child: Image.network(
+              snapshot.data['data'][index]['images']['fixed_height']['url'],
+              height: 300,
+              fit: BoxFit.cover,
+            ),
+          );
+        } else {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _pageNumber += 1;
+              });
+            },
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.add, size: 70),
+                  Text(
+                    'Show more...',
+                    style: TextStyle(color: mainColor, fontSize: 22),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
       }),
     );
   }
