@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gif_finder/http/giphy_api/giphy_api_webclient.dart';
 import 'package:gif_finder/main.dart';
+import 'package:gif_finder/models/giphy_api_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,6 +11,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // API instance
+  final GiphyApi _giphyApi = GiphyApi();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +35,61 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Container(color: backGroundColor),
+      backgroundColor: backGroundColor,
+      body: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder(
+              future: _giphyApi.getTrendsGifs(GetTrendsGifsOptions(pageNumber: 1)),
+              builder: ((context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return Container(
+                      width: 100,
+                      height: 100,
+                      alignment: Alignment.topCenter,
+                      child: const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(mainColor)),
+                    );
+
+                  default:
+                    if (snapshot.hasError) {
+                      return Container(
+                        alignment: Alignment.topCenter,
+                        child: const Text('Error!'),
+                      );
+                    } else {
+                      return _createGifList(context, snapshot);
+                    }
+                }
+              }),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _createGifList(BuildContext context, AsyncSnapshot snapshot) {
+    final int gifQuantity = snapshot.data['data'].length;
+
+    return GridView.builder(
+      padding: const EdgeInsets.all(12),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: gifQuantity,
+      itemBuilder: ((context, index) {
+        return GestureDetector(
+          child: Image.network(
+            snapshot.data['data'][index]['images']['fixed_height']['url'],
+            height: 300,
+            fit: BoxFit.cover,
+          ),
+        );
+      }),
     );
   }
 }
