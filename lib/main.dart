@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gif_finder/pages/home_page.dart';
 
 const mainColor = Color(0xFFF0A459);
 const backGroundColor = Color(0xFF243447);
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Disable device "Landscape" orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MyApp());
 }
 
