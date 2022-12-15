@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gif_finder/http/giphy_api/giphy_api_webclient.dart';
 import 'package:gif_finder/main.dart';
 import 'package:gif_finder/models/giphy_api_model.dart';
+import 'package:gif_finder/pages/gif_view_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -115,11 +116,15 @@ class _HomePageState extends State<HomePage> {
       ),
       itemCount: _getCount(gifQuantity),
       itemBuilder: ((context, index) {
+        final Map currentGif = snapshot.data['data'][index];
         // Check if is display "Show more" button
         if (_search.isEmpty || index < gifQuantity) {
           return GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: ((context) => GifViewPage(gifData: currentGif))));
+            },
             child: Image.network(
-              snapshot.data['data'][index]['images']['fixed_height']['url'],
+              currentGif['images']['fixed_height']['url'],
               height: 300,
               fit: BoxFit.cover,
             ),
