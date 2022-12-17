@@ -4,6 +4,7 @@ import 'package:gif_finder/main.dart';
 import 'package:gif_finder/models/giphy_api_model.dart';
 import 'package:gif_finder/pages/gif_view_page.dart';
 import 'package:share/share.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -130,8 +131,9 @@ class _HomePageState extends State<HomePage> {
             onLongPress: () {
               Share.share('$gifTitle $gifUrl from Gif Finder App');
             },
-            child: Image.network(
-              gifUrl,
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: gifUrl,
               height: 300,
               fit: BoxFit.cover,
             ),
