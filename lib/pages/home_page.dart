@@ -3,6 +3,7 @@ import 'package:gif_finder/http/giphy_api/giphy_api_webclient.dart';
 import 'package:gif_finder/main.dart';
 import 'package:gif_finder/models/giphy_api_model.dart';
 import 'package:gif_finder/pages/gif_view_page.dart';
+import 'package:share/share.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -119,12 +120,18 @@ class _HomePageState extends State<HomePage> {
         final Map currentGif = snapshot.data['data'][index];
         // Check if is display "Show more" button
         if (_search.isEmpty || index < gifQuantity) {
+          late String gifTitle = currentGif['title'];
+          late String gifUrl = currentGif['images']['fixed_height']['url'];
+
           return GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: ((context) => GifViewPage(gifData: currentGif))));
             },
+            onLongPress: () {
+              Share.share('$gifTitle $gifUrl from Gif Finder App');
+            },
             child: Image.network(
-              currentGif['images']['fixed_height']['url'],
+              gifUrl,
               height: 300,
               fit: BoxFit.cover,
             ),

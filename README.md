@@ -1,16 +1,14 @@
-# gif_finder
+# Gif Finder App
 
 A new Flutter project.
 
-## Getting Started
+To learn:
 
-This project is a starting point for a Flutter application.
+- GridView widget.
+- Import image list from API.
+- Search by HTTP requests.
+- Create page navigation.
+- Create 'shared image (gif)' action.
+- Disable device "Landscape" orientation
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![App example](https://github.com/LeoCosta001/calculadora-imc-example-app/blob/main/app_example.png?raw=true)
