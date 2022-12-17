@@ -9,6 +9,7 @@ To learn:
 - Search by HTTP requests.
 - Create page navigation.
 - Create 'shared image (gif)' action.
-- Disable device "Landscape" orientation
+- Apply fadeIn effect on loading images.
+- Disable device "Landscape" orientation.
 
-![App example](https://github.com/LeoCosta001/calculadora-imc-example-app/blob/main/app_example.png?raw=true)
+![App example](https://github.com/LeoCosta001/gif-finder-example-app/blob/main/app_example.gif?raw=true)
