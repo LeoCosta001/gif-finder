@@ -12,4 +12,4 @@ To learn:
 - Apply fadeIn effect on loading images.
 - Disable device "Landscape" orientation.
 
-![App example](https://github.com/LeoCosta001/gif-finder-example-app/blob/main/app_example.gif?raw=true)
+![App example](https://github.com/LeoCosta001/gif-finder/blob/main/app_example.gif?raw=true)
