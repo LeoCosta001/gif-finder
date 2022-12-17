@@ -126,12 +126,14 @@ class _HomePageState extends State<HomePage> {
 
           return GestureDetector(
             onTap: () {
+              // Create page navigation
               Navigator.push(context, MaterialPageRoute(builder: ((context) => GifViewPage(gifData: currentGif))));
             },
             onLongPress: () {
               Share.share('$gifTitle $gifUrl from Gif Finder App');
             },
             child: FadeInImage.memoryNetwork(
+              // Create FadeIn Effect
               placeholder: kTransparentImage,
               image: gifUrl,
               height: 300,
